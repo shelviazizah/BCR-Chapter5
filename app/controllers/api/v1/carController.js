@@ -4,7 +4,6 @@
  */
 const cars = require("../../../models/cars");
 const carService = require("../../../services/carService");
-// const cloudinary = require("./cloudinary");
 
 module.exports = {
   list(req, res) {
@@ -77,9 +76,10 @@ module.exports = {
 
   async destroy(req, res) {
     try {
-      // const car = req.car;
+      const carId = req.params.id;
       const deletedBy = req.user.id;
-      await carService.deleteCar(cars.id, deletedBy)
+
+      await carService.deleteCar(carId, deletedBy)
       res.status(200).json({
         status: "OK",
         message: "Success"
@@ -91,4 +91,5 @@ module.exports = {
       });
     };
   },
+
 };

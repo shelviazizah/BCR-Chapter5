@@ -1,13 +1,12 @@
-// const { request } = require("express");
 const carRepository = require("../repositories/carRepository");
-// const user = require("../models/user");
+const { cloudinary } = require("./../../cloudinary");
 
 module.exports = {
   async createCar(req) {
     const { nama, price, ukuran, image } = req.body || {};
     const { id } = req.user || {};
 
-    if (!nama || !price || !ukuran || !image) {
+    if (!nama || !price || !ukuran || !req.file || !req.file.path) {
       return {
         data: null,
         message: "Complete your input!",
@@ -15,20 +14,25 @@ module.exports = {
       }
     }
 
-    newCar = await carRepository.create({ nama, price, ukuran, image, createdBy: id });
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    const newCar = await carRepository.create({ nama, price, ukuran, image: result.url, createdBy: id });
     if (nama || price || ukuran || image) {
       return {
         data: newCar,
         status: "Success"
       }
     }
+
+    module.exports = { createCar }
   },
 
   async updateCar(idCar, req) {
     const { nama, price, ukuran, image } = req.body || {};
     const { id } = req.user || {};
+    const result = await cloudinary.uploader.upload(req.file.path);
 
-    if (!nama || !price || !ukuran || !image) {
+    if (!nama || !price || !ukuran || !req.file || !req.file.path) {
       return {
         data: null,
         message: "Complete your input!",
@@ -36,7 +40,7 @@ module.exports = {
       }
     }
 
-    updatedCar = await carRepository.update(idCar, { nama, price, ukuran, image, updatedBy: id });
+    updatedCar = await carRepository.update(idCar, { nama, price, ukuran, image: result.url, updatedBy: id });
     if (nama || price || ukuran || image) {
       return {
         data: updatedCar,
