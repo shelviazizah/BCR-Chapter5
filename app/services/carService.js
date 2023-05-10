@@ -28,9 +28,8 @@ module.exports = {
   },
 
   async updateCar(idCar, req) {
-    const { nama, price, ukuran, image } = req.body || {};
+    const { nama, price, ukuran } = req.body || {};
     const { id } = req.user || {};
-    const result = await cloudinary.uploader.upload(req.file.path);
 
     if (!nama || !price || !ukuran || !req.file || !req.file.path) {
       return {
@@ -40,7 +39,8 @@ module.exports = {
       }
     }
 
-    updatedCar = await carRepository.update(idCar, { nama, price, ukuran, image: result.url, updatedBy: id });
+    const result = await cloudinary.uploader.upload(req.file.path);
+    const updatedCar = carRepository.update(idCar, { nama, price, ukuran, image: result.url, updatedBy: id });
     if (nama || price || ukuran || image) {
       return {
         data: updatedCar,
