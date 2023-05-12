@@ -74,6 +74,30 @@ module.exports = {
       });
   },
 
+  async checkCar(req, res, next) {
+    try {
+      const id = req.params.id;
+      const carPayload = await carService.get(id);
+
+      if (!carPayload) {
+        res.status(404).json({
+          status: "FAIL",
+          message: `car not found!`,
+        });
+        return;
+      }
+
+      req.car = carPayload;
+
+      next();
+    } catch (err) {
+      res.status(500).json({
+        status: "FAIL",
+        message: "server error!",
+      });
+    }
+  },
+
   async destroy(req, res) {
     try {
       const carId = req.params.id;
@@ -91,5 +115,22 @@ module.exports = {
       });
     };
   },
+
+  // getCarById(req, res) {
+  //   carService
+  //     .getCarById(req.params.id)
+  //     .then((car) => {
+  //       res.status(200).json({
+  //         status: "OK",
+  //         data: car,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       res.status(400).json({
+  //         status: "FAIL",
+  //         message: err.message,
+  //       });
+  //     });
+  // },
 
 };

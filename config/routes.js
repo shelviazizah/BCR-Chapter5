@@ -20,11 +20,12 @@ apiRouter.delete("/api/v1/posts/:id", controllers.api.v1.postController.destroy)
 
 // ROUTES FOR CARS
 //  controllers.api.v1.authController.authorize
-apiRouter.get("/api/v1/cars", controllers.api.v1.authController.authorize, controllers.api.v1.carController.list);
+apiRouter.get("/api/v1/car", controllers.api.v1.authController.authorize, controllers.api.v1.carController.list);
 apiRouter.post("/api/v1/cars", controllers.api.v1.authController.authorize, controllers.api.v1.authController.authorizeUserRole, uploadImage.single('image'), controllers.api.v1.carController.create);
 apiRouter.put("/api/v1/cars/:id", controllers.api.v1.authController.authorize, controllers.api.v1.authController.authorizeUserRole, uploadImage.single('image'), controllers.api.v1.carController.update);
-apiRouter.get("/api/v1/cars/:id", controllers.api.v1.carController.show);
+// apiRouter.get("/api/v1/cars/:id", controllers.api.v1.authController.authorize, controllers.api.v1.carController.checkCar, controllers.api.v1.carController.getCarById);
 apiRouter.delete("/api/v1/cars/:id", controllers.api.v1.authController.authorize, controllers.api.v1.authController.authorizeUserRole, controllers.api.v1.carController.destroy);
+apiRouter.get("/api/v1/cars/:id", controllers.api.v1.authController.authorize, controllers.api.v1.carController.show);
 
 // ROUTES FOR USER
 apiRouter.get("/api/v1/users", controllers.api.v1.authController.authorize, controllers.api.v1.authController.authorizeUserRole, controllers.api.v1.userController.list);

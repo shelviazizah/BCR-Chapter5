@@ -57,7 +57,7 @@ module.exports = {
   },
 
   show(req, res) {
-    postService
+    carService
       .get(req.params.id)
       .then((post) => {
         res.status(200).json({

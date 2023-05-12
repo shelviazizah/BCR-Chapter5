@@ -74,6 +74,31 @@ module.exports = {
     }
   },
 
+  // async get(req, res, next) {
+  //   try {
+  //     const id = req.params.id;
+  //     const carPayLoad = await carService.get(id);
+
+  //     if (!carPayload) {
+  //       res.status(404).json({
+  //         status: "FAIL",
+  //         message: `car not found!`,
+  //       });
+  //       return;
+  //     }
+
+  //     req.car = carPayload;
+
+  //     next();
+
+  //     return {
+  //       data: cars
+  //     };
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // },
+
   get(id) {
     return carRepository.find(id);
   },

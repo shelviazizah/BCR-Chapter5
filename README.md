@@ -44,10 +44,11 @@ Ada 3 role yang ada dan memiliki kebijakan yang berbeda yaitu
 
 ## SUPER ADMIN
 Hanya terdapat 1 superadmin yaitu :
-Nama     : Admin Shelvi
-Email    : adminshelvi@gmail.com
-Password : superadmin
+- Nama     : Admin Shelvi
+- Email    : adminshelvi@gmail.com
+- Password : superadmin
 
 ## ERD 
 Dalam kasus ini menggunakan database `db_beauth_development` yang memiliki 2 tabel yaitu `Users` dan `Cars`.
 Untuk gambaran dari ERD dapat dilihat pada gambar dibawah ini
+![ERD Image](./ERD.png)
