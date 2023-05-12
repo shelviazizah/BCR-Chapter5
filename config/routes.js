@@ -1,6 +1,8 @@
 const express = require("express");
 const controllers = require("../app/controllers");
 const uploadImage = require("./../uploadOnMemory");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./../openapi.json');
 
 const multer = require('multer');
 
@@ -11,15 +13,10 @@ const apiRouter = express.Router();
  *       implementations
  */
 
-// ROUTES FOR POST
-apiRouter.get("/api/v1/posts", controllers.api.v1.authController.authorize, controllers.api.v1.postController.list);
-apiRouter.post("/api/v1/posts", controllers.api.v1.postController.create);
-apiRouter.put("/api/v1/posts/:id", controllers.api.v1.postController.update);
-apiRouter.get("/api/v1/posts/:id", controllers.api.v1.postController.show);
-apiRouter.delete("/api/v1/posts/:id", controllers.api.v1.postController.destroy);
+apiRouter.use('/api-docs', swaggerUi.serve);
+apiRouter.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 // ROUTES FOR CARS
-//  controllers.api.v1.authController.authorize
 apiRouter.get("/api/v1/car", controllers.api.v1.authController.authorize, controllers.api.v1.carController.list);
 apiRouter.post("/api/v1/cars", controllers.api.v1.authController.authorize, controllers.api.v1.authController.authorizeUserRole, uploadImage.single('image'), controllers.api.v1.carController.create);
 apiRouter.put("/api/v1/cars/:id", controllers.api.v1.authController.authorize, controllers.api.v1.authController.authorizeUserRole, uploadImage.single('image'), controllers.api.v1.carController.update);

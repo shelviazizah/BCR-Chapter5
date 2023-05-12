@@ -1,0 +1,792 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Binar Car Rental Chapter 5 - OpenAPI 3.0",
+    "description": "This is a page that will explain the Open API documentation used in the Binar Car Rental Chapter 5 project. Here are some explanations about the APIs used in the project.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://petstore3.swagger.io/api/v3"
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "Everything about user"
+    },
+    {
+      "name": "cars",
+      "description": "CRUD for cars"
+    }
+  ],
+  "paths": {
+    "/api/v1/register": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Creating new member",
+        "description": "Creating new member account",
+        "operationId": "createMember",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/member"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/member"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/member"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/member"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/register": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Creating new admin",
+        "description": "Creating new admin account",
+        "operationId": "createAdmin",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/admin"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/admin"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/admin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/admin"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Login with user account",
+        "description": "Login with user account",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user name for login",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login Success",
+            "content": {
+              "application/application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginSuperadmin"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "status": "FAIL",
+                    "message": "Invalid user and password"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Show users",
+        "description": "Show all user only for superadmin",
+        "operationId": "Show users",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/member"
+                  }
+                },
+                "examples": {
+                  "DefaultSample": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "nama": "member1",
+                        "email": "member1@gmail.com",
+                        "password": "member1"
+                      },
+                      {
+                        "id": 2,
+                        "nama": "member2",
+                        "email": "member2@gmail.com",
+                        "password": "member2"
+                      },
+                      {
+                        "id": 3,
+                        "nama": "member3",
+                        "email": "member3@gmail.com",
+                        "password": "member3"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "FAIL"
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Show users by id",
+        "description": "Show user using id",
+        "operationId": "show users by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/member"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "FAIL"
+          }
+        }
+      }
+    },
+    "/api/v1/userss/{id}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update user",
+        "description": "Edit user using id only for admin and superadmin",
+        "operationId": "Edit user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Cars ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/member"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succesfully Edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/member"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/v1/user/{id}": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete user",
+        "description": "Delete user using id",
+        "operationId": "Delete user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Cars ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "OK"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/v1/cars": {
+      "post": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Creating new car",
+        "description": "Creating new models of car",
+        "operationId": "createCar",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/inputCars"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/inputCars"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/inputCars"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success creating cars",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/outputCars"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/v1/car": {
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Show available car",
+        "description": "Creating new models of car",
+        "responses": {
+          "200": {
+            "description": "successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/outputCars"
+                  }
+                },
+                "examples": {
+                  "DefaultSample": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "nama": "Ferrari,",
+                        "price": "200000,",
+                        "ukuran": "Small,",
+                        "image": "ferrari.jpg,",
+                        "createdBy": 1,
+                        "updatedBy": 1,
+                        "deletedBy": 0,
+                        "createdAt": "2023-05-11T15:55:08.690Z",
+                        "updatedAt": "2023-05-11T15:55:08.690Z",
+                        "deletedAt": "2023-05-11T15:55:08.690Z"
+                      },
+                      {
+                        "id": 2,
+                        "nama": "Supra,",
+                        "price": "210000,",
+                        "ukuran": "Small,",
+                        "image": "supra.jpg,",
+                        "createdBy": 1,
+                        "updatedBy": 0,
+                        "deletedBy": 0,
+                        "createdAt": "2023-05-11T15:55:08.690Z",
+                        "updatedAt": "2023-05-11T15:55:08.690Z",
+                        "deletedAt": "2023-05-11T15:55:08.690Z"
+                      },
+                      {
+                        "id": 3,
+                        "nama": "Porche,",
+                        "price": "220000,",
+                        "ukuran": "Small,",
+                        "image": "porche.jpg,",
+                        "createdBy": 1,
+                        "updatedBy": 1,
+                        "deletedBy": 0,
+                        "createdAt": "2023-05-11T15:55:08.690Z",
+                        "updatedAt": "2023-05-11T15:55:08.690Z",
+                        "deletedAt": "2023-05-11T15:55:08.690Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "FAIL"
+          }
+        }
+      }
+    },
+    "/api/v1/car/{id}": {
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Show cars using id",
+        "description": "Show cars using id",
+        "operationId": "Show cars",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Cars ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/outputCars"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/v1/cars/{id}": {
+      "put": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Update Cars",
+        "description": "Edit cars using id only for admin and superadmin",
+        "operationId": "Edit cars",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Cars ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/inputCars"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succesfully Edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/outputCars"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/v1/carss/{id}": {
+      "delete": {
+        "tags": [
+          "cars"
+        ],
+        "summary": "Delete Cars",
+        "description": "Delete cars using id",
+        "operationId": "Delete cars",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Cars ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "OK"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "inputCars": {
+        "type": "object",
+        "properties": {
+          "nama": {
+            "type": "string",
+            "example": "Porche"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32",
+            "example": 100000
+          },
+          "ukuran": {
+            "type": "string",
+            "example": "Large"
+          },
+          "image": {
+            "type": "string",
+            "example": "image.jpg"
+          }
+        }
+      },
+      "outputCars": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "nama": {
+            "type": "string",
+            "example": "Porche"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32",
+            "example": 100000
+          },
+          "ukuran": {
+            "type": "string",
+            "example": "Large"
+          },
+          "image": {
+            "type": "string",
+            "example": "image.jpg"
+          },
+          "createdBy": {
+            "type": "integer"
+          },
+          "updatedBy": {
+            "type": "integer"
+          },
+          "deletedBy": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "member": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "username": {
+            "type": "string",
+            "example": "member1"
+          },
+          "email": {
+            "type": "string",
+            "example": "member1@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "member1"
+          }
+        }
+      },
+      "admin": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "nama": {
+            "type": "string",
+            "example": "admin1"
+          },
+          "email": {
+            "type": "string",
+            "example": "admin1@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "admin1"
+          }
+        }
+      },
+      "loginSuperadmin": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "OK"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "username": {
+            "type": "string",
+            "example": "superadmin"
+          },
+          "email": {
+            "type": "string",
+            "example": "supperadmin@email.com"
+          },
+          "token": {
+            "type": "string",
+            "example": "KJHUIASFJKbhsgvdiyvkhbKJSVGbkjsV"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
